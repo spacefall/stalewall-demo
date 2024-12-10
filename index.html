@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Stalewall</title>
+</head>
+<body>
+<header>
+    <br>
+    <h1>Stalewall</h1>
+    <p>A semi-practical demo for a wallpaper api</p>
+</header>
+
+<main>
+    <section>
+        <p>
+            <i>Hi!</i>
+            <br>
+            This is a small demo for <a href="https://github.com/spacefall/stalewall-api">Stalewall</a>, an api that returns a random wallpaper from various sources.
+            You can find a hosted version of this api at <a class="italics" href="https://stalewall.spacefall.workers.dev">stalewall.spacefall.workers.dev</a>.
+        </p>
+        <p class="italics">
+            Please remember that the wallpapers returned from this api should be used for personal use only (except maybe unsplash images).
+        </p>
+    </section>
+    <details>
+        <summary>Settings</summary>
+        <label>
+            Resolution (empty = max res):
+            <input class="smallTextbox" type="text" id="width">
+            x
+            <input class="smallTextbox" type="text" id="height">
+        </label>
+        <label>
+            Quality:
+            <input class="smallTextbox" type="text" id="quality" value="92">
+        </label>
+
+        Providers:
+        <table style="margin: 0.5rem 0;">
+            <tr>
+                <th>Bing</th>
+                <th>Chromecast</th>
+                <th>Spotlight</th>
+                <th>Fire TV</th>
+                <th>Earth View</th>
+                <th>Unsplash</th>
+                <th title="Not guaranteed to be in a landscape (or portrait) orientation">APOD*</th>
+            </tr>
+            <tr>
+                <td><input type="checkbox" checked="checked" class="providers" id="bing"></td>
+                <td><input type="checkbox" checked="checked" class="providers" id="chromecast"></td>
+                <td><input type="checkbox" checked="checked" class="providers" id="spotlight"></td>
+                <td><input type="checkbox" checked="checked" class="providers" id="firetv"></td>
+                <td><input type="checkbox" checked="checked" class="providers" id="earthview"></td>
+                <td><input type="checkbox" checked="checked" class="providers" id="unsplash"></td>
+                <td><input type="checkbox" class="providers" id="apod"></td>
+            </tr>
+        </table>
+
+    </details>
+    <div class="centerText">
+        <button onclick="getWall()">Give me a wallpaper</button>
+    </div>
+
+    <article id="wallpaper">
+        <span id="spancopyright">author</span>
+        <span id="spandescription">description</span>
+        <img id="imgwallpaper" src="" alt="">
+    </article>
+
+    <script src="main.js"></script>
+</main>
+
+<footer>
+    <p class="italics">You can find this page's source <a href="https://github.com/spacefall/stalewall-demo">here</a> and the api's source <a href="https://github.com/spacefall/stalewall">here</a></p>
+</footer>
+</body>
+</html>

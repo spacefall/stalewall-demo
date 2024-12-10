@@ -1,0 +1,25 @@
+.italics {
+  font-style: italic;
+}
+
+.centerText, td {
+    text-align: center;
+}
+
+.smallTextbox {
+    width: 5rem;
+    height: 2rem;
+}
+
+.providers {
+    vertical-align: middle;
+    margin: 6px;
+}
+
+#wallpaper {
+    display: none;
+}
+
+span {
+    display: block;
+}
