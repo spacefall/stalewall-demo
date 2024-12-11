@@ -14,9 +14,10 @@ async function getWall() {
     try {
         const url = buildUrl();
         const [imgUrl, copyright, desc] = await getImgUrl(url);
+        imgTag.src = "";
+        imgTag.src = imgUrl;
         copyTag.innerText = copyright;
         descTag.innerText = desc.join("\n");
-        imgTag.src = imgUrl;
         wallpaperArticle.style.display = "block";
     } catch (e) {
         console.error(e);
