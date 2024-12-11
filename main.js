@@ -60,7 +60,7 @@ async function getImgUrl(url) {
             copyright += ` (authorUrl: ${jsonRes["info"]["credits"]["urls"]["author"]})`;
         }
         if ("image" in jsonRes["info"]["credits"]["urls"]) {
-            copyright += ` (imageUrl: ${jsonRes["info"]["credits"]["urls"]["author"]})`;
+            copyright += ` (imageUrl: ${jsonRes["info"]["credits"]["urls"]["image"]})`;
         }
     }
 
