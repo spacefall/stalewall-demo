@@ -66,14 +66,16 @@ async function getImgUrl(url) {
 
     // descriptions
     let desc = [];
-    if ("title" in jsonRes["info"]["desc"]) {
-        desc.push(`Title: ${jsonRes["info"]["desc"]["title"]}`);
-    }
-    if ("short" in jsonRes["info"]["desc"]) {
-        desc.push(`Short description: ${jsonRes["info"]["desc"]["short"]}`);
-    }
-    if ("long" in jsonRes["info"]["desc"]) {
-        desc.push(`Long description: ${jsonRes["info"]["desc"]["long"]}`);
+    if ("desc" in jsonRes["info"]) {
+        if ("title" in jsonRes["info"]["desc"]) {
+            desc.push(`Title: ${jsonRes["info"]["desc"]["title"]}`);
+        }
+        if ("short" in jsonRes["info"]["desc"]) {
+            desc.push(`Short description: ${jsonRes["info"]["desc"]["short"]}`);
+        }
+        if ("long" in jsonRes["info"]["desc"]) {
+            desc.push(`Long description: ${jsonRes["info"]["desc"]["long"]}`);
+        }
     }
 
     return [jsonRes["url"], copyright, desc];
