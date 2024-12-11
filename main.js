@@ -10,18 +10,19 @@ const imgTag = document.getElementById("imgwallpaper");
 const proxyUrl = debug ? "http://localhost:3000" : "https://stalewall.spacefell.workers.dev/?proxy"
 
 async function getWall() {
-    wallpaperArticle.style.display = "none";
+    //wallpaperArticle.style.display = "none";
     try {
         const url = buildUrl();
         const [imgUrl, copyright, desc] = await getImgUrl(url);
         copyTag.innerText = copyright;
         descTag.innerText = desc.join("\n");
         imgTag.src = imgUrl;
+        wallpaperArticle.style.display = "block";
     } catch (e) {
         console.error(e);
         alert("Failed to get wallpaper, check your settings and try again.");
     }
-    wallpaperArticle.style.display = "block";
+    
 }
 
 function buildUrl() {
