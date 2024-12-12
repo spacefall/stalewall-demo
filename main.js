@@ -4,8 +4,9 @@ const hTxt = document.getElementById("height");
 const qTxt = document.getElementById("quality");
 const wallpaperArticle = document.getElementById("wallpaper");
 const providerChecks = document.getElementsByClassName("providers");
-const copyTag = document.getElementById("spancopyright");
 const descTag = document.getElementById("spandescription");
+const authTag = document.getElementById("authortext");
+const provTag = document.getElementById("providertext");
 const imgTag = document.getElementById("imgwallpaper");
 const proxyUrl = debug ? "http://localhost:3000" : "https://stalewall.spacefell.workers.dev/?proxy"
 
@@ -16,7 +17,21 @@ async function getWall() {
         const [imgUrl, copyright, desc] = await getImgUrl(url);
         imgTag.src = "";
         imgTag.src = imgUrl;
-        copyTag.innerText = copyright;
+        provTag.innerHTML = copyright["provider"];
+        authTag.innerHTML = copyright["copyright"];
+        if ("author" in copyright) {
+          authTag.href = copyright["author"];
+        } if (authTag.href) {
+          authTag.removeAttribute("href");
+        }
+        if ("image" in copyright) {
+          provTag.href = copyright["image"];
+        } else {
+          if (provTag.href) {
+            provTag.removeAttribute("href");
+          }
+        }
+       // copyTag.innerText = copyright;
         descTag.innerText = desc.join("\n");
         wallpaperArticle.style.display = "block";
     } catch (e) {
@@ -56,13 +71,13 @@ async function getImgUrl(url) {
     const provName = provReturned.charAt(0).toUpperCase() + provReturned.slice(1);
 
     // copyright + links
-    let copyright = `By ${jsonRes["info"]["credits"]["copyright"]} on ${provName}`;
+    let copyright = { "copyright": jsonRes["info"]["credits"]["copyright"], "provider": provName };
     if ("urls" in jsonRes["info"]["credits"]) {
         if ("author" in jsonRes["info"]["credits"]["urls"]) {
-            copyright += ` (authorUrl: ${jsonRes["info"]["credits"]["urls"]["author"]})`;
+            copyright["author"] = (jsonRes["info"]["credits"]["urls"]["author"]);
         }
         if ("image" in jsonRes["info"]["credits"]["urls"]) {
-            copyright += ` (imageUrl: ${jsonRes["info"]["credits"]["urls"]["image"]})`;
+            copyright["image"] = (jsonRes["info"]["credits"]["urls"]["image"]);
         }
     }
 
