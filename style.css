@@ -1,12 +1,21 @@
-.italics {
-  font-style: italic;
-}
-
-.centerText, td {
+div, td {
     text-align: center;
 }
 
-.smallTextbox {
+span {
+    display: block;
+}
+
+a {
+    color: unset;
+}
+
+a[href^="http"] {
+    /* --accent is set by simplecss */
+    color: var(--accent);
+}
+
+input[type="text"] {
     width: 5rem;
     height: 2rem;
 }
@@ -16,10 +25,6 @@
     margin: 6px;
 }
 
-#wallpaper {
+#wallSect {
     display: none;
-}
-
-span {
-    display: block;
 }

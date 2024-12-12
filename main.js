@@ -1,53 +1,85 @@
-const debug = false;
-const wTxt = document.getElementById("width");
-const hTxt = document.getElementById("height");
-const qTxt = document.getElementById("quality");
-const wallpaperArticle = document.getElementById("wallpaper");
-const providerChecks = document.getElementsByClassName("providers");
-const descTag = document.getElementById("spandescription");
-const authTag = document.getElementById("authortext");
-const provTag = document.getElementById("providertext");
-const imgTag = document.getElementById("imgwallpaper");
-const proxyUrl = debug ? "http://localhost:3000" : "https://stalewall.spacefell.workers.dev/?proxy"
+// Proxy URL used by this code
+const proxyUrl = "https://stalewall.spacefell.workers.dev/?proxy"
 
+// Settings elements
+const wTxt = document.getElementById("setWidth");
+const hTxt = document.getElementById("setHeight");
+const qTxt = document.getElementById("setQuality");
+const wallSect = document.getElementById("wallSect");
+const provChkbox = document.getElementsByClassName("providers");
+
+// Result elements
+const descTxt = document.getElementById("desc");
+const authorTxt = document.getElementById("authorTxt");
+const provTxt = document.getElementById("provTxt");
+const imgTag = document.getElementById("image");
+const infoBox = document.getElementById("infoBox");
+
+// Parses the api json and sets all the elements
 async function getWall() {
-    //wallpaperArticle.style.display = "none";
     try {
-        const url = buildUrl();
-        const [imgUrl, copyright, desc] = await getImgUrl(url);
+        const json = await getImgUrl(buildUrl());
+        // Cleanup before setting new image
         imgTag.src = "";
-        imgTag.src = imgUrl;
-        provTag.innerHTML = copyright["provider"];
-        authTag.innerHTML = copyright["copyright"];
-        if ("author" in copyright) {
-          authTag.href = copyright["author"];
-        } if (authTag.href) {
-          authTag.removeAttribute("href");
+        descTxt.innerHTML = "";
+        authorTxt.removeAttribute("href");
+        provTxt.removeAttribute("href");
+
+        // Set new values
+        imgTag.src = json["url"];
+        provTxt.innerHTML = json["provider"].charAt(0).toUpperCase() + json["provider"].slice(1);
+        authorTxt.innerHTML = json["info"]["credits"]["copyright"];
+
+        // Add href to text at bottom of image
+        if ("urls" in json["info"]["credits"]) {
+            const urls = json["info"]["credits"]["urls"];
+            // Add author url to copyright text
+            if ("author" in urls) {
+                authorTxt.href = urls["author"];
+            }
+            // Add image url to provider text
+            if ("image" in urls) {
+                provTxt.href = urls["image"];
+            }
         }
-        if ("image" in copyright) {
-          provTag.href = copyright["image"];
+
+        // Add descriptions to "Info" section
+        if ("desc" in json["info"]) {
+            const desc = json["info"]["desc"];
+            if ("title" in desc) {
+                descTxt.innerHTML += `Title: ${desc["title"]}<br>`;
+            }
+            if ("short" in desc) {
+                descTxt.innerHTML += `Short: ${desc["short"]}<br>`;
+            }
+            if ("long" in desc) {
+                descTxt.innerHTML += `Long: ${desc["long"]}<br>`;
+            }
+        }
+
+        // Hide info section if no description is returned
+        if (descTxt.innerHTML === "") {
+            infoBox.style.display = "none";
         } else {
-          if (provTag.href) {
-            provTag.removeAttribute("href");
-          }
+            infoBox.style.display = "block";
         }
-       // copyTag.innerText = copyright;
-        descTag.innerText = desc.join("\n");
-        wallpaperArticle.style.display = "block";
+
+        // Make the article visible
+        wallSect.style.display = "block";
     } catch (e) {
         console.error(e);
         alert("Failed to get wallpaper, check your settings and try again.");
     }
-    
 }
 
+// Takes settings from the settings section and builds an api url out of them (keeps proxy enabled because of cors)
 function buildUrl() {
     // loads proxyurl
     const apiUrl = new URL(proxyUrl);
     const provArr = [];
 
     // appends providers
-    for (const pr of providerChecks) {
+    for (const pr of provChkbox) {
         if (pr.checked) provArr.push(pr.id);
     }
     apiUrl.searchParams.append("prov", provArr.join(","));
@@ -60,40 +92,9 @@ function buildUrl() {
     return apiUrl.toString();
 }
 
-// Unpacks the json in 3 strings: image url, copyright info and descriptions
+// Gets the json and returns it
 async function getImgUrl(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Failed to fetch json");
-    const jsonRes = await res.json();
-
-    // provider (copyright string)
-    const provReturned = jsonRes["provider"];
-    const provName = provReturned.charAt(0).toUpperCase() + provReturned.slice(1);
-
-    // copyright + links
-    let copyright = { "copyright": jsonRes["info"]["credits"]["copyright"], "provider": provName };
-    if ("urls" in jsonRes["info"]["credits"]) {
-        if ("author" in jsonRes["info"]["credits"]["urls"]) {
-            copyright["author"] = (jsonRes["info"]["credits"]["urls"]["author"]);
-        }
-        if ("image" in jsonRes["info"]["credits"]["urls"]) {
-            copyright["image"] = (jsonRes["info"]["credits"]["urls"]["image"]);
-        }
-    }
-
-    // descriptions
-    let desc = [];
-    if ("desc" in jsonRes["info"]) {
-        if ("title" in jsonRes["info"]["desc"]) {
-            desc.push(`Title: ${jsonRes["info"]["desc"]["title"]}`);
-        }
-        if ("short" in jsonRes["info"]["desc"]) {
-            desc.push(`Short description: ${jsonRes["info"]["desc"]["short"]}`);
-        }
-        if ("long" in jsonRes["info"]["desc"]) {
-            desc.push(`Long description: ${jsonRes["info"]["desc"]["long"]}`);
-        }
-    }
-
-    return [jsonRes["url"], copyright, desc];
+    return res.json();
 }

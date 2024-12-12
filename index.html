@@ -15,30 +15,42 @@
 </header>
 
 <main>
+    <!-- Disclamer -->
     <section>
         <p>
             <i>Hi!</i>
             <br>
-            This is a small demo for <a href="https://github.com/spacefall/stalewall-api">Stalewall</a>, an api that returns a random wallpaper from various sources.
-            You can find a hosted version of this api at <a class="italics" href="https://stalewall.spacefall.workers.dev">stalewall.spacefall.workers.dev</a>.
+            This is a small demo for <a href="https://github.com/spacefall/stalewall-api">Stalewall</a>, an api that
+            returns a random wallpaper from various sources.
+            You can find a hosted version of this api at
+            <a href="https://stalewall.spacefall.workers.dev"><i>stalewall.spacefall.workers.dev</i></a>.
         </p>
-        <p class="italics">
-            Please remember that the wallpapers returned from this api should be used for personal use only (except maybe unsplash images).
+        <p>
+            <i>
+                Please remember that the wallpapers returned from this api should be used for personal use only (except
+                maybe unsplash images).
+            </i>
         </p>
     </section>
+
+    <!-- Settings tab -->
     <details>
         <summary>Settings</summary>
+        <!-- Res -->
         <label>
             Resolution (empty = max res):
-            <input class="smallTextbox" type="text" id="width">
+            <input type="text" id="setWidth">
             x
-            <input class="smallTextbox" type="text" id="height">
-        </label>
-        <label>
-            Quality:
-            <input class="smallTextbox" type="text" id="quality" value="92">
+            <input type="text" id="setHeight">
         </label>
 
+        <!-- Quality -->
+        <label>
+            Quality:
+            <input type="text" id="setQuality" value="92">
+        </label>
+
+        <!-- Providers -->
         Providers:
         <table style="margin: 0.5rem 0;">
             <tr>
@@ -48,7 +60,7 @@
                 <th>Fire TV</th>
                 <th>Earth View</th>
                 <th>Unsplash</th>
-                <th title="Not guaranteed to be in a landscape (or portrait) orientation">APOD*</th>
+                <th title="*Not guaranteed to be in a landscape (or portrait) orientation">APOD*</th>
             </tr>
             <tr>
                 <td><input type="checkbox" checked="checked" class="providers" id="bing"></td>
@@ -60,26 +72,31 @@
                 <td><input type="checkbox" class="providers" id="apod"></td>
             </tr>
         </table>
-
     </details>
-    <div class="centerText">
+
+    <!-- Get Wallpaper button -->
+    <div>
         <button onclick="getWall()">Give me a wallpaper</button>
     </div>
 
-    <article id="wallpaper">
-        <details>
-          <summary>Info</summary>
-          <span id="spandescription">description</span>
+    <!-- Wallpaper section -->
+    <article id="wallSect">
+        <!-- Info -->
+        <details id="infoBox">
+            <summary>Info</summary>
+            <span id="desc"></span>
         </details>
-        <img id="imgwallpaper" src="" alt="">
-         <span>By <a id="authortext"></a> on <a id="providertext"></a></span>
+        <!-- Image -->
+        <img id="image" src="" alt="">
+        <span>By <a id="authorTxt"></a> on <a id="provTxt"></a></span>
     </article>
 
     <script src="main.js"></script>
 </main>
 
 <footer>
-    <p class="italics">You can find this page's source <a href="https://github.com/spacefall/stalewall-demo">here</a> and the api's source <a href="https://github.com/spacefall/stalewall">here</a></p>
+    <p><i>You can find this page's source <a href="https://github.com/spacefall/stalewall-demo">here</a>
+        and the api's source <a href="https://github.com/spacefall/stalewall">here</a></i></p>
 </footer>
 </body>
 </html>
