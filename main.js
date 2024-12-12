@@ -98,3 +98,7 @@ async function getImgUrl(url) {
     if (!res.ok) throw new Error("Failed to fetch json");
     return res.json();
 }
+
+// Set resolution to display res
+wTxt.value = window.screen.width;
+hTxt.value = window.screen.height;
