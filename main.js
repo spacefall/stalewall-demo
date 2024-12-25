@@ -13,7 +13,7 @@ const descTxt = document.getElementById("desc");
 const authorTxt = document.getElementById("authorTxt");
 const provTxt = document.getElementById("provTxt");
 const imgTag = document.getElementById("image");
-const infoBox = document.getElementById("infoBox");
+const jsonTxt = document.getElementById("jsonBox");
 
 // Parses the api json and sets all the elements
 async function getWall() {
@@ -47,22 +47,18 @@ async function getWall() {
         if ("desc" in json["info"]) {
             const desc = json["info"]["desc"];
             if ("title" in desc) {
-                descTxt.innerHTML += `Title: ${desc["title"]}<br>`;
+                descTxt.innerHTML += `Title: \"${desc["title"]}\"<br>`;
             }
             if ("short" in desc) {
-                descTxt.innerHTML += `Short: ${desc["short"]}<br>`;
+                descTxt.innerHTML += `Short: \"${desc["short"]}\"<br>`;
             }
             if ("long" in desc) {
-                descTxt.innerHTML += `Long: ${desc["long"]}<br>`;
+                descTxt.innerHTML += `Long: \"${desc["long"]}\"<br>`;
             }
+
         }
 
-        // Hide info section if no description is returned
-        if (descTxt.innerHTML === "") {
-            infoBox.style.display = "none";
-        } else {
-            infoBox.style.display = "block";
-        }
+        jsonTxt.innerHTML = JSON.stringify(json);
 
         // Make the article visible
         wallSect.style.display = "block";

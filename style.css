@@ -4,6 +4,9 @@ div, td {
 
 span {
     display: block;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 a {
